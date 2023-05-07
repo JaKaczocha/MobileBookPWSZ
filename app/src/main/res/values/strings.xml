@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">MobileCookBook</string>
+    <string name="action_create_order">dodaj_menu_main</string>
+    <string name="action_settings">settings_menu_main</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_top"> Fragment topFragment</string>
+
+    <string-array name="pizzas">
+        <item>Diavolo</item>
+        <item>Funghi</item>
+    </string-array>
+
+    <string-array name="pasta">
+        <item>Spaghetti bolognese</item>
+        <item>Lasagne</item>
+    </string-array>
+
+    <string-array name="soups">
+        <item>chicken broth</item>
+        <item>Italian Meatball Soup</item>
+    </string-array>
+
+    <string-array name="titles">
+        <item>home screen</item>
+        <item>pizzas</item>
+        <item>pasta</item>
+        <item>soups</item>
+    </string-array>
+
+
+    <string name="open_drawer">Otwórz szufladę</string>
+    <string name="close_drawer">Zamknij szufladę</string>
 </resources>
