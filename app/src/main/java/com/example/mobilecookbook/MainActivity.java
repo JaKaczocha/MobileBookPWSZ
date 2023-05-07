@@ -76,15 +76,18 @@ public class MainActivity extends AppCompatActivity {
                             if(fragment instanceof TopFragment) {
                                 currentPosition = 0;
                             }
-                            if(fragment instanceof PizzaFragment) {
-                                currentPosition = 1;
+                            if(fragment instanceof FoodMaterialFragment) { //Todo: change the following to swich case and implement Type as enum
+                                if(Food.getType() == "Pizza") { // depending on the type, sets the items to display the correct RecyclerView environment (e.g. name on the bar)
+                                    currentPosition = 1;
+                                }
+                                if(Food.getType() == "Pasta") {
+                                    currentPosition = 2;
+                                }
+                                if(Food.getType() == "Soup") {
+                                    currentPosition = 3;
+                                }
                             }
-                            if(fragment instanceof PastaFragment) {
-                                currentPosition = 2;
-                            }
-                            if(fragment instanceof SoupFragment) {
-                                currentPosition = 3;
-                            }
+
                             setActionBarTitle(currentPosition);
                             drawerList.setItemChecked(currentPosition,true);
                         }
@@ -114,16 +117,23 @@ public class MainActivity extends AppCompatActivity {
         currentPosition = position; // update value when navigation drawer item is selected
         switch(position) { // depending on the position, we open the selected fragment
             case 1:
-                fragment =new PizzaFragment();
+                Food.setType("Pizza");
+                fragment =new FoodMaterialFragment();
                 break;
             case 2:
-                fragment = new PastaFragment();
+                Food.setType("Pasta");
+                fragment = new FoodMaterialFragment();
+
                 break;
             case 3:
-                fragment = new SoupFragment();
+                Food.setType("Soup");
+                fragment = new FoodMaterialFragment();
+
                 break;
             default:
+                Food.setType("Home");
                 fragment = new TopFragment();
+
         }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_frame,fragment,"visible_fragment");// 3rd current argument is responsible for adding a tag
