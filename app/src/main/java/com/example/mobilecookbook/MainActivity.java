@@ -1,8 +1,8 @@
 package com.example.mobilecookbook;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //database helper
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         // specify the options to display in the navigation drawer list
         titles = getResources().getStringArray(R.array.titles);
@@ -73,18 +77,22 @@ public class MainActivity extends AppCompatActivity {
                         public void onBackStackChanged() {
                             FragmentManager fragMan = getSupportFragmentManager();
                             Fragment fragment = fragMan.findFragmentByTag("visible_fragment");
-                            if(fragment instanceof TopFragment) {
-                                currentPosition = 0;
+
+                            if(fragment instanceof FoodMaterialFragment) { //Todo: change the following to swich case and implement Type as enum
+                                if(Food.getType() == "Pizza") { // depending on the type, sets the items to display the correct RecyclerView environment (e.g. name on the bar)
+                                    currentPosition = 1;
+                                }
+                                if(Food.getType() == "Pasta") {
+                                    currentPosition = 2;
+                                }
+                                if(Food.getType() == "Soup") {
+                                    currentPosition = 3;
+                                }
+                                if(Food.getType() == "Home") {
+                                    currentPosition = 0;
+                                }
                             }
-                            if(fragment instanceof PizzaFragment) {
-                                currentPosition = 1;
-                            }
-                            if(fragment instanceof PastaFragment) {
-                                currentPosition = 2;
-                            }
-                            if(fragment instanceof SoupFragment) {
-                                currentPosition = 3;
-                            }
+
                             setActionBarTitle(currentPosition);
                             drawerList.setItemChecked(currentPosition,true);
                         }
@@ -93,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    @Override // display the action_create_order button in the activity bar
+    @Override // display the action_open_book button in the activity bar
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
         menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
@@ -114,16 +122,23 @@ public class MainActivity extends AppCompatActivity {
         currentPosition = position; // update value when navigation drawer item is selected
         switch(position) { // depending on the position, we open the selected fragment
             case 1:
-                fragment =new PizzaFragment();
+                Food.setType("Pizza");
+                fragment =new FoodMaterialFragment();
                 break;
             case 2:
-                fragment = new PastaFragment();
+                Food.setType("Pasta");
+                fragment = new FoodMaterialFragment();
+
                 break;
             case 3:
-                fragment = new SoupFragment();
+                Food.setType("Soup");
+                fragment = new FoodMaterialFragment();
+
                 break;
             default:
-                fragment = new TopFragment();
+                Food.setType("Home");
+                fragment = new FoodMaterialFragment();
+
         }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_frame,fragment,"visible_fragment");// 3rd current argument is responsible for adding a tag
@@ -147,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
     private void setActionBarTitle(int position) {
         String title;
         if(position == 0 ) {
-            title = getResources().getString(R.string.app_name); // if he clicks home screen
+            title = "recommended"; // if he clicks home screen
         } else {
             title = titles[position];// get a string from the titles array based on the position of the clicked item
         }
@@ -176,9 +191,9 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         switch( item.getItemId()) {
-            case R.id.action_create_order:
+            case R.id.action_open_my_book:
                 // code after clicking the place order button (we start the OrderActivity)
-                Intent intent = new Intent(this,OrderActivity.class);
+                Intent intent = new Intent(this, MyBookActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.action_settings:

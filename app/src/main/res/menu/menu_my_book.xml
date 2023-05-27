@@ -3,9 +3,9 @@
     tools:context=".MainActivity"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_open_my_book"
-        android:title="@string/action_open_my_book"
-        android:icon="@drawable/open_book_svgrepo_com"
+    <item android:id="@+id/action_add_recipe"
+        android:title="@string/action_add_recipe"
+        android:icon="@drawable/add_file_svgrepo_com"
         android:orderInCategory="1"
         app:showAsAction="ifRoom"
         />
