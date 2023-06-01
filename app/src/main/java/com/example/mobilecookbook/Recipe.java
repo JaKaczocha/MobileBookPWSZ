@@ -5,23 +5,27 @@ public class Recipe {
     private String name;
     private String recipe;
     private int kcal;
-    private int salt;
+    private int protein;
     private int sugar;
     private int fat;
     private byte[] image;
+    private String ingredients;
 
     public Recipe() {
     }
 
-    public Recipe(String category, String name, String recipe, int kcal, int salt, int sugar, int fat, byte[] image) {
+
+
+    public Recipe(String category, String name, String recipe, int kcal, int protein, int sugar, int fat, byte[] image, String ingredients) {
         this.category = category;
         this.name = name;
         this.recipe = recipe;
         this.kcal = kcal;
-        this.salt = salt;
+        this.protein = protein;
         this.sugar = sugar;
         this.fat = fat;
         this.image = image;
+        this.ingredients += ingredients;
     }
 
     public String getCategory() {
@@ -56,12 +60,12 @@ public class Recipe {
         this.kcal = kcal;
     }
 
-    public int getSalt() {
-        return salt;
+    public int getProtein() {
+        return protein;
     }
 
-    public void setSalt(int salt) {
-        this.salt = salt;
+    public void setProtein(int salt) {
+        this.protein = salt;
     }
 
     public int getSugar() {
@@ -86,5 +90,13 @@ public class Recipe {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public String getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
     }
 }

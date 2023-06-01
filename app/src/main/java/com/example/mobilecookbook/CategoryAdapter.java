@@ -1,6 +1,8 @@
 package com.example.mobilecookbook;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +20,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     private Context context;
     private List<Category> categories;
+    private OnItemClickListener listener;
 
     public CategoryAdapter(Context context, List<Category> categories) {
         this.context = context;
         this.categories = categories;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -44,6 +55,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                 .load(category.getImage())
                 .placeholder(R.drawable.placeholder)
                 .into(holder.categoryImage);
+
+        // Obsługa zdarzenia kliknięcia
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onItemClick(position);
+
+                    // Uruchomienie MyRecipesActivity po kliknięciu
+                    Intent intent = new Intent(context, MyRecipesActivity.class);
+                    intent.putExtra("categoryName", category.getName());
+                    context.startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override

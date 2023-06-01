@@ -10,6 +10,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,6 +23,7 @@ public class MyBookActivity extends AppCompatActivity {
     private CategoryAdapter categoryAdapter;
 
     private List<Category> categories;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,13 +41,26 @@ public class MyBookActivity extends AppCompatActivity {
         // Pobierz kategorie z bazy danych
         getCategoriesFromDatabase();
 
-        //display the up button on the activity bar
-        // deleted because the application was crashing but
-        // WORKS WITHOUT IT
-        //ActionBar actionBar = getActionBar();
-        //actionBar.setDisplayHomeAsUpEnabled(true);
+        // Obsługa zdarzenia kliknięcia w CardView
+        categoryAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Category clickedCategory = categories.get(position);
 
-        }
+                Log.d("MyBookActivity", "Clicked category: " + clickedCategory.getName()); // Dodaj ten log
+
+                // Przekierowanie do MyRecipesActivity z przekazaną nazwą kategorii
+                Intent intent = new Intent(MyBookActivity.this, MyRecipesActivity.class);
+                System.out.println(clickedCategory.getName() + ")))))))))))))))))))))))))))))");
+                intent.putExtra("categoryName", clickedCategory.getName()); // Przekazanie nazwy kategorii
+
+                Log.d("MyBookActivity", "Starting MyRecipesActivity with category: " + clickedCategory.getName()); // Dodaj ten log
+
+                startActivity(intent);
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //prepare the menu, if the action bar exists, we add items to it
