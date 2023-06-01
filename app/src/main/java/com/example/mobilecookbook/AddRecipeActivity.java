@@ -3,6 +3,7 @@ package com.example.mobilecookbook;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -22,7 +23,8 @@ public class AddRecipeActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageView mImageRecipe;
-    private EditText edtvNAME,edtvRECIPE,edtvKCAL,edtvSALT,edtvSUGAR,edtvFAT,edtvCATEGORY;
+    private EditText edtvNAME,edtvRECIPE,edtvKCAL,edtvPROTEIN,edtvSUGAR,edtvFAT,edtvCATEGORY,edtvINGREDIENTS;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +36,11 @@ public class AddRecipeActivity extends AppCompatActivity {
         edtvNAME = findViewById(R.id.edtvNAME);
         edtvRECIPE = findViewById(R.id.edtvRECIPE);
         edtvKCAL = findViewById(R.id.edtvKCAL);
-        edtvSALT = findViewById(R.id.edtvSALT);
+        edtvPROTEIN = findViewById(R.id.edtvPROTEIN);
         edtvSUGAR = findViewById(R.id.edtvSUGAR);
         edtvFAT = findViewById(R.id.edtvFAT);
         edtvCATEGORY = findViewById(R.id.edtvCATEGORY);
+        edtvINGREDIENTS = findViewById(R.id.edtvINGREDIENTS);
     }
 
     @Override
@@ -74,16 +77,16 @@ public class AddRecipeActivity extends AppCompatActivity {
         String name = edtvNAME.getText().toString();
         String recipe = edtvRECIPE.getText().toString();
         int kcal = Integer.parseInt(edtvKCAL.getText().toString());
-        int salt = Integer.parseInt(edtvSALT.getText().toString());
+        int protein = Integer.parseInt(edtvPROTEIN.getText().toString());
         int sugar = Integer.parseInt(edtvSUGAR.getText().toString());
         int fat = Integer.parseInt(edtvFAT.getText().toString());
-
+        String ingredients = edtvINGREDIENTS.getText().toString();
         BitmapDrawable drawable = (BitmapDrawable) mImageRecipe.getDrawable();
         Bitmap image = drawable.getBitmap();
         byte[] imageBytes = getBytesFromBitmap(image);
 
         // Tworzenie obiektu przepisu
-        Recipe newRecipe = new Recipe(category, name, recipe, kcal, salt, sugar, fat, imageBytes);
+        Recipe newRecipe = new Recipe(category, name, recipe, kcal, protein, sugar, fat, imageBytes,ingredients);
 
         // Dodawanie przepisu do bazy danych
         DatabaseHelper dbHelper = new DatabaseHelper(this);
@@ -97,7 +100,7 @@ public class AddRecipeActivity extends AppCompatActivity {
 
         // Czyszczenie pól i obrazka
         edtvCATEGORY.setText("");
-        edtvSALT.setText("");
+        edtvPROTEIN.setText("");
         edtvSUGAR.setText("");
         edtvNAME.setText("");
         edtvKCAL.setText("");
