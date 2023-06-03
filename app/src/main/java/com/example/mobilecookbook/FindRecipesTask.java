@@ -23,7 +23,7 @@ public class FindRecipesTask extends AsyncTask<String, Void, List<DataFromApi>> 
 
     public static String type = "Home";
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    private final String API_KEY = "c5b8c72d76msh3b793a701570d03p128808jsn60f7408665d7";
+    private final String API_KEY = "paste_here_your_api_key";
     private final String API_HOST = "tasty.p.rapidapi.com";
     private final String API_URL = "https://tasty.p.rapidapi.com/recipes/list";
 
