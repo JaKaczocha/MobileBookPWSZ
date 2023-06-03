@@ -10,44 +10,76 @@ import android.widget.ImageView;
 import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 public class FoodDetailActivity extends AppCompatActivity {
 
-    private ShareActionProvider shareActionProvider;
     public static final String EXTRA_FOODNO = "foodNo";
+    static int  foodNo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_detail);
 
-        //getActionBar().setDisplayHomeAsUpEnabled(true);//throws a nullPointerException enable the up button
+        foodNo = getIntent().getIntExtra(EXTRA_FOODNO, 0);
+        String foodName = FindRecipesTask.recipes.get(foodNo).nazwa;
+        String foodImage = FindRecipesTask.recipes.get(foodNo).pictureLink;
 
-        //we display detailed information
-        int foodNo = (Integer)getIntent().getExtras().get(EXTRA_FOODNO);
-        String foodName = Food.food.get(foodNo).getName();
-        TextView textView = (TextView) findViewById(R.id.food_text);
-        textView.setText("");
-        int foodImage = Food.food.get(foodNo).getImageResourceId();
-        ImageView imageView = (ImageView) findViewById(R.id.food_image);
-        imageView.setImageDrawable(getResources().getDrawable(foodImage));
+        String text = getTextfromApi(foodNo);
+
+        TextView textView = findViewById(R.id.food_text);
+        textView.setText(text);
+
+        ImageView imageView = findViewById(R.id.food_image);
         imageView.setContentDescription(foodName);
 
-        getSupportActionBar().setTitle(Food.food.get(foodNo).getName());
+        Glide.with(this)
+                .load(foodImage)
+                .into(imageView);
 
+        getSupportActionBar().setTitle(foodName);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu); // dodajemy elementu z tego pliku do paska aktywności
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_open_my_book:
-                    Intent intent = new Intent(this, MyBookActivity.class); // uruchamiamy aktywność pod przyciskiem na pasku aktywności
-                    startActivity(intent);
+                Intent intent = new Intent(this, MyBookActivity.class);
+                startActivity(intent);
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
+        return true;
+    }
+
+    public static String getTextfromApi(int index) {
+
+        String Text =
+                "INGREDIENTS:\n";
+
+        Text += FindRecipesTask.recipes.get(foodNo).ingredients;
+        Text += "\n\nINSTRUCTION:\n";
+
+        Text += FindRecipesTask.recipes.get(foodNo).instruction;
+        Text += "\n\n";
+
+        if(FindRecipesTask.recipes.get(foodNo).calories != "not given")
+        {
+            Text += "KCAL: " + FindRecipesTask.recipes.get(foodNo).calories + "\n";
+            Text += "PROTEIN: " + FindRecipesTask.recipes.get(foodNo).protein + "\n";
+            Text += "SUGAR: " + FindRecipesTask.recipes.get(foodNo).sugar + "\n";
+            Text += "FAT: " + FindRecipesTask.recipes.get(foodNo).fat + "\n";
+        }
+
+
+        System.out.println(Text);
+        return Text;
     }
 }

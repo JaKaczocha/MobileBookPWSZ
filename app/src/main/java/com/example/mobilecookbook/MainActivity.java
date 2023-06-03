@@ -78,17 +78,17 @@ public class MainActivity extends AppCompatActivity {
                             FragmentManager fragMan = getSupportFragmentManager();
                             Fragment fragment = fragMan.findFragmentByTag("visible_fragment");
 
-                            if(fragment instanceof FoodMaterialFragment) { //Todo: change the following to swich case and implement Type as enum
-                                if(Food.getType() == "Pizza") { // depending on the type, sets the items to display the correct RecyclerView environment (e.g. name on the bar)
+                            if(fragment instanceof FoodMaterialFragment) {
+                                if(FindRecipesTask.type == "Pizza") { // depending on the type, sets the items to display the correct RecyclerView environment (e.g. name on the bar)
                                     currentPosition = 1;
                                 }
-                                if(Food.getType() == "Pasta") {
+                                if(FindRecipesTask.type == "Pasta") {
                                     currentPosition = 2;
                                 }
-                                if(Food.getType() == "Soup") {
+                                if(FindRecipesTask.type == "Soup") {
                                     currentPosition = 3;
                                 }
-                                if(Food.getType() == "Home") {
+                                if(FindRecipesTask.type == "Home") {
                                     currentPosition = 0;
                                 }
                             }
@@ -122,21 +122,22 @@ public class MainActivity extends AppCompatActivity {
         currentPosition = position; // update value when navigation drawer item is selected
         switch(position) { // depending on the position, we open the selected fragment
             case 1:
-                Food.setType("Pizza");
+                FindRecipesTask.type = "Pizza";
+
                 fragment =new FoodMaterialFragment();
                 break;
             case 2:
-                Food.setType("Pasta");
+                FindRecipesTask.type = "Pasta";
                 fragment = new FoodMaterialFragment();
 
                 break;
             case 3:
-                Food.setType("Soup");
+                FindRecipesTask.type = "Soup";
                 fragment = new FoodMaterialFragment();
 
                 break;
             default:
-                Food.setType("Home");
+                FindRecipesTask.type = "Home";
                 fragment = new FoodMaterialFragment();
 
         }

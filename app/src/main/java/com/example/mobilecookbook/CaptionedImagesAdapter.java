@@ -1,7 +1,6 @@
 package com.example.mobilecookbook;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,63 +11,77 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+
 public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter.ViewHolder> {
 
-    private String[] captions; // data storage
-    private int[] imageIds; // -II-
-    private Listener listener;
+    private ArrayList<String> captions;
+    private ArrayList<String> imageIds;
+    private ItemClickListener itemClickListener;
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private CardView cardView; // we specify that the ViewHolder object will contain the CardView objects.
-        public ViewHolder(CardView v) { // to display other types of data you need to define it here
+        private CardView cardView;
+
+        public ViewHolder(CardView v) {
             super(v);
             cardView = v;
         }
     }
-    public CaptionedImagesAdapter(String[] captions,int [] imageIds) { // constructor adapter passing data
+
+    public interface ItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setItemClickListener(ItemClickListener listener) {
+        this.itemClickListener = listener;
+    }
+
+    public CaptionedImagesAdapter(ArrayList<String> imageIds,ArrayList<String> captions) {
         this.captions = captions;
         this.imageIds = imageIds;
     }
+
     @Override
-    public CaptionedImagesAdapter.ViewHolder onCreateViewHolder(
-            ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView cv = (CardView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_captioned_image,parent,false); // specify what layout to use in
-                                                                        // views stored in View Holder objects
+                .inflate(R.layout.card_captioned_image, parent, false);
         return new ViewHolder(cv);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") final int position ) {
+    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         CardView cardView = holder.cardView;
-        ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image); // responsible for displaying the photo in the ImageView
+        ImageView imageView = cardView.findViewById(R.id.info_image);
+        TextView textView = cardView.findViewById(R.id.info_text);
 
-        Drawable drawable = cardView.getResources().getDrawable(imageIds[position]);
-        imageView.setImageDrawable(drawable);
-        imageView.setContentDescription(captions[position]);
-        TextView textView = (TextView) cardView.findViewById(R.id.info_text);
-        textView.setText(captions[position]);
+        String imageUrl = imageIds.get(position);
+
+        Glide.with(cardView.getContext())
+                .load(imageUrl)
+                .placeholder(R.drawable.diavolo)
+                .error(R.drawable.clearchicken)
+                .into(imageView);
+
+        imageView.setContentDescription(captions.get(position));
+        textView.setText(captions.get(position));
 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( listener != null ) {
-                    listener.onClick(position);
+                if (itemClickListener != null) {
+                    itemClickListener.onItemClick(position);
                 }
             }
         });
-
     }
-    public static interface Listener {
-        public void onClick(int position);
-    }
-    public void setListener(Listener listener) {
-        this.listener = listener;
-    }
-
 
     @Override
     public int getItemCount() {
-        return captions.length; // the size of the array corresponds to the number of elements presented in recycleView
+        return captions.size();
     }
+
+
 
 }
