@@ -3,6 +3,12 @@
     tools:context=".MainActivity"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/action_search"
+        android:title="szukaj"
+
+        app:showAsAction="ifRoom"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
     <item android:id="@+id/action_open_my_book"
         android:title="@string/action_open_my_book"
         android:icon="@drawable/open_book_svgrepo_com"
