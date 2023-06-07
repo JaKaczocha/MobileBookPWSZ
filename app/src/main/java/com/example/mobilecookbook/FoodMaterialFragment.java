@@ -60,6 +60,9 @@ public class FoodMaterialFragment extends Fragment implements CaptionedImagesAda
             searchRecipes(FindRecipesTask.type, size);
         } else if (FindRecipesTask.type.equals("Home")) {
             searchRecipes(FindRecipesTask.type, size);
+        } else {
+            searchRecipes(FindRecipesTask.type,size);
+            System.out.println("65 fragemnt works: " + FindRecipesTask.type + " " + size);
         }
 
         return foodRecycler;

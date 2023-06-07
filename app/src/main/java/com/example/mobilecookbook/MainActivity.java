@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import androidx.appcompat.widget.SearchView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 public class MainActivity extends AppCompatActivity {
 
+
+    private SearchView searchView;
+    public String searchText;
     private String[] titles; // options in the navigation drawer
     private ListView drawerList;
     private DrawerLayout drawerLayout; // as a private method to make it available to many methods
@@ -42,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         android.R.layout.simple_list_item_activated_1,titles));
         // add a new instance of the OnClickListener object
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+
 
         if(savedInstanceState == null) {
             selectItem(0);
@@ -82,14 +88,18 @@ public class MainActivity extends AppCompatActivity {
                                 if(FindRecipesTask.type == "Pizza") { // depending on the type, sets the items to display the correct RecyclerView environment (e.g. name on the bar)
                                     currentPosition = 1;
                                 }
-                                if(FindRecipesTask.type == "Pasta") {
+                                else if(FindRecipesTask.type == "Pasta") {
                                     currentPosition = 2;
                                 }
-                                if(FindRecipesTask.type == "Soup") {
+                                else if(FindRecipesTask.type == "Soup") {
                                     currentPosition = 3;
                                 }
-                                if(FindRecipesTask.type == "Home") {
+                                else if(FindRecipesTask.type == "Home") {
                                     currentPosition = 0;
+                                }
+                                else {
+                                    currentPosition = 4;
+                                    System.out.println("CURRENT POSITION 4 102" );
                                 }
                             }
 
@@ -98,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
             );
+
+
 
 
     }
@@ -136,6 +148,14 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new FoodMaterialFragment();
 
                 break;
+            case 4:
+                System.out.println("151 dziła");
+
+                FindRecipesTask.type = searchText;
+
+                System.out.println("tresc: "+searchText);
+                fragment = new FoodMaterialFragment();
+                break;
             default:
                 FindRecipesTask.type = "Home";
                 fragment = new FoodMaterialFragment();
@@ -164,7 +184,11 @@ public class MainActivity extends AppCompatActivity {
         String title;
         if(position == 0 ) {
             title = "recommended"; // if he clicks home screen
-        } else {
+        }
+        else if(position == 4) {
+
+            title = searchText;}
+        else {
             title = titles[position];// get a string from the titles array based on the position of the clicked item
         }
         getSupportActionBar().setTitle(title);// changes the string in the title of the action bar
@@ -173,9 +197,42 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //prepare the menu, if the action bar exists, we add items to it
-        getMenuInflater().inflate(R.menu.menu_main,menu); // arg1 - resource file, arg2 - object representing the action bar
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchText = query;
+                performSearch(query);
+
+                System.out.println("zatwierdziłem 200 (" + searchText +")" );
+                searchView.clearFocus(); // Zamyka klawiaturę po wciśnięciu Enter
+                searchView.setIconified(true); // Zwija pole wyszukiwania po wciśnięciu Enter
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Tutaj możesz reagować na zmiany tekstu wprowadzanego w polu wyszukiwania
+                // np. odświeżać listę na podstawie nowego tekstu
+                return true;
+            }
+        });
+
         return super.onCreateOptionsMenu(menu);
     }
+
+    // reszta kodu
+
+    private void performSearch(String query) {
+        selectItem(4);
+        setActionBarTitle(4);
+    }
+
+
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) { // we synchronize the state of the button with the state of the ActionBarDrawerToggle
         super.onPostCreate(savedInstanceState);
@@ -198,7 +255,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.action_settings:
-                //code after executing setting item
+                Intent intentSearch = new Intent(this, MySearchActivity.class);
+                startActivity(intentSearch);
                 return true; // true tells the system that clicking on an action bar item has been handled
             default:
                 return super.onOptionsItemSelected(item);
