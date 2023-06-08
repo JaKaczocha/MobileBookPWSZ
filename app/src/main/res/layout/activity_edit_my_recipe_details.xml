@@ -11,6 +11,14 @@
         android:orientation="vertical"
         android:padding="8dp">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="INGRIDIENTS"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="?attr/colorPrimary" />
         <EditText
             android:id="@+id/editINGREDIENTS"
             android:layout_width="match_parent"
@@ -21,7 +29,14 @@
             android:hint="enter ingridients..."
             android:inputType="textMultiLine" />
 
-
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RECIPE"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="?attr/colorPrimary" />
         <EditText
 
             android:id="@+id/editRECIPE"
