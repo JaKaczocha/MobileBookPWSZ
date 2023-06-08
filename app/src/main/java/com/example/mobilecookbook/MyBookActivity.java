@@ -39,7 +39,7 @@ public class MyBookActivity extends AppCompatActivity {
         recyclerView.setAdapter(categoryAdapter);
 
         // Pobierz kategorie z bazy danych
-        getCategoriesFromDatabase();
+        getCategoriesFromDatabaseWithoutFavorite();
 
         // Obsługa zdarzenia kliknięcia w CardView
         categoryAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
@@ -96,6 +96,16 @@ public class MyBookActivity extends AppCompatActivity {
         recyclerView.setAdapter(categoryAdapter);
     }
 
+    private void getCategoriesFromDatabaseWithoutFavorite() {
+        // Otwórz bazę danych (DatabaseHelper to klasa pomocnicza do obsługi bazy danych)
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        categories = dbHelper.getCategoriesFromDatabaseWithoutFavorite(); // Przypisz pobrane kategorie do pola 'categories' w klasie
+
+        // Przygotuj RecyclerView i adapter
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2)); // Ustawienie siatki 2-kolumnowej
+        categoryAdapter = new CategoryAdapter(this, categories);
+        recyclerView.setAdapter(categoryAdapter);
+    }
 
 
 }

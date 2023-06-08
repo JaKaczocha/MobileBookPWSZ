@@ -205,6 +205,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return categories;
     }
+    public List<Category> getCategoriesFromDatabaseWithoutFavorite() {
+        List<Category> categories = new ArrayList<>();
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] projection = {
+                COLUMN_CATEGORY,
+                COLUMN_IMAGE
+        };
+
+        String selection = COLUMN_CATEGORY + " != ?";
+        String[] selectionArgs = {"favorite"};
+
+        Cursor cursor = db.query(
+                true,
+                TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                COLUMN_CATEGORY,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            String category = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CATEGORY));
+            byte[] image = cursor.getBlob(cursor.getColumnIndexOrThrow(COLUMN_IMAGE));
+
+            Category categoryItem = new Category(category, image);
+            categories.add(categoryItem);
+        }
+
+        cursor.close();
+        db.close();
+
+        return categories;
+    }
 
     public List<Recipe> getRecipesByCategory(String categoryName) {
         SQLiteDatabase db = getReadableDatabase();
@@ -337,4 +375,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+
+    boolean getRecipeByCategoryAndNameBoolean(String categoryName, String recipeName) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] projection = {COLUMN_NAME};
+
+        String selection = COLUMN_CATEGORY + " = ? AND " + COLUMN_NAME + " = ?";
+        String[] selectionArgs = {categoryName, recipeName};
+
+        Cursor cursor = db.query(
+                TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        boolean recipeExists = cursor.getCount() > 0;
+
+        cursor.close();
+        db.close();
+
+        return recipeExists;
+    }
+
 }

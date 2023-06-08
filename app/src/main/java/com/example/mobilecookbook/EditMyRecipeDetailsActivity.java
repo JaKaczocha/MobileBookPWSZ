@@ -13,9 +13,11 @@ import android.widget.Toast;
 
 public class EditMyRecipeDetailsActivity extends AppCompatActivity {
 
-    String categoryName, recipeName;
-    EditText editRecipe, editIngredients, editKCLA, editSUGAR, editFAT, editPROTEIN;
-    Recipe recipe;
+    private String categoryName, recipeName;
+    private EditText editRecipe, editIngredients, editKCLA, editSUGAR, editFAT, editPROTEIN;
+    private DatabaseHelper dbHelper;
+    private Recipe recipe;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +33,7 @@ public class EditMyRecipeDetailsActivity extends AppCompatActivity {
         editRecipe = findViewById(R.id.editRECIPE);
         editIngredients = findViewById(R.id.editINGREDIENTS);
 
-
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        dbHelper = new DatabaseHelper(this);
         recipe = dbHelper.getRecipeByCategoryAndName(categoryName, recipeName);
 
         editIngredients.setText(recipe.getIngredients().toString());
@@ -43,8 +44,7 @@ public class EditMyRecipeDetailsActivity extends AppCompatActivity {
         editPROTEIN.setText(String.valueOf(recipe.getProtein()));
     }
 
-    public void editRecipe(View view ) {
-        // Utwórz obiekt Recipe z zaktualizowanymi danymi
+    public void editRecipe(View view) {
         Recipe updatedRecipe = new Recipe();
         updatedRecipe.setCategory(categoryName);
         updatedRecipe.setName(recipeName);
@@ -55,26 +55,25 @@ public class EditMyRecipeDetailsActivity extends AppCompatActivity {
         updatedRecipe.setSugar(Integer.parseInt(editSUGAR.getText().toString()));
         updatedRecipe.setProtein(Integer.parseInt(editPROTEIN.getText().toString()));
         updatedRecipe.setImage(recipe.getImage());
-        // Aktualizuj przepis w bazie danych
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
+
         dbHelper.editRecipeByCategoryAndName(categoryName, recipeName, updatedRecipe);
 
-        // Powiadomienie o sukcesie
         Toast.makeText(this, "Recipe updated successfully.", Toast.LENGTH_SHORT).show();
+
+        // Przekazanie informacji o zaktualizowanych danych do poprzedniej aktywności
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            // Przekazanie nazwy i kategorii przepisu do poprzedniej aktywności
             Intent intent = new Intent();
-            intent.putExtra("categoryName", categoryName);
-            intent.putExtra("recipeName", recipeName);
             setResult(RESULT_OK, intent);
             finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

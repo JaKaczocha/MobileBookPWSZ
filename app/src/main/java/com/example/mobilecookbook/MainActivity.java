@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
     private void setActionBarTitle(int position) {
         String title;
         if(position == 0 ) {
-            title = "recommended"; // if he clicks home screen
+            title = "Favorite <3"; // if he clicks home screen
         }
         else if(position == 4) {
 
