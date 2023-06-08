@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +28,7 @@ public class FoodMaterialFragment extends Fragment implements CaptionedImagesAda
     private RecyclerView foodRecycler;
     private String mParam1;
     private String mParam2;
+    private TextView tv;
 
     public FoodMaterialFragment() {
         // Required empty public constructor
@@ -54,12 +57,16 @@ public class FoodMaterialFragment extends Fragment implements CaptionedImagesAda
         String size = "30";
         if (FindRecipesTask.type.equals("Pizza")) {
             searchRecipes(FindRecipesTask.type, size);
+
         } else if (FindRecipesTask.type.equals("Pasta")) {
             searchRecipes(FindRecipesTask.type, size);
         } else if (FindRecipesTask.type.equals("Soup")) {
             searchRecipes(FindRecipesTask.type, size);
         } else if (FindRecipesTask.type.equals("Home")) {
             searchRecipes(FindRecipesTask.type, size);
+        } else {
+            searchRecipes(FindRecipesTask.type, size);
+            System.out.println("65 fragment works: " + FindRecipesTask.type + " " + size);
         }
 
         return foodRecycler;
@@ -86,6 +93,8 @@ public class FoodMaterialFragment extends Fragment implements CaptionedImagesAda
         foodRecycler.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         foodRecycler.setLayoutManager(layoutManager);
+
+        showItemCountToast(recipes.size()); // Wywołanie metody showItemCountToast z przekazaną liczbą elementów
     }
 
     @Override
@@ -93,5 +102,14 @@ public class FoodMaterialFragment extends Fragment implements CaptionedImagesAda
         Intent intent = new Intent(getActivity(), FoodDetailActivity.class);
         intent.putExtra(FoodDetailActivity.EXTRA_FOODNO, position);
         startActivity(intent);
+    }
+
+    private void showItemCountToast(int count) {
+
+        if(count == 0) {
+            String message = "NO RECIPES!";
+            Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        }
+
     }
 }

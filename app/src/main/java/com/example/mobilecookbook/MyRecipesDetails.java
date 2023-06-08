@@ -8,12 +8,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MyRecipesDetails extends AppCompatActivity {
     private String categoryName;
     private String recipeName;
     private DatabaseHelper dbHelper;
+    private TextView edtvMYNAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,10 @@ public class MyRecipesDetails extends AppCompatActivity {
         if (recipe != null) {
             // Znaleziono przepis
             // Wykonaj odpowiednie działania
+            edtvMYNAME = findViewById(R.id.edtvMYNAME);
+            edtvMYNAME.setText(recipe.getIngredients() + "\n\n" + recipe.getRecipe() + "\n\nKCLA: " +
+                    recipe.getKcal() + " \nPROTEIN" + recipe.getProtein() + "\nSUGAR: " +
+                    recipe.getSugar() + "\nFAT: " + recipe.getFat() + '\n');
         }
     }
 
