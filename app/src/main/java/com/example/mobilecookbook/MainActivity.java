@@ -1,8 +1,8 @@
 package com.example.mobilecookbook;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import androidx.appcompat.widget.SearchView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 public class MainActivity extends AppCompatActivity {
 
+
+    private SearchView searchView;
+    public String searchText;
     private String[] titles; // options in the navigation drawer
     private ListView drawerList;
     private DrawerLayout drawerLayout; // as a private method to make it available to many methods
@@ -30,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //database helper
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
         // specify the options to display in the navigation drawer list
         titles = getResources().getStringArray(R.array.titles);
         drawerList = (ListView) findViewById(R.id.drawer);
@@ -38,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         android.R.layout.simple_list_item_activated_1,titles));
         // add a new instance of the OnClickListener object
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+
 
         if(savedInstanceState == null) {
             selectItem(0);
@@ -73,18 +83,23 @@ public class MainActivity extends AppCompatActivity {
                         public void onBackStackChanged() {
                             FragmentManager fragMan = getSupportFragmentManager();
                             Fragment fragment = fragMan.findFragmentByTag("visible_fragment");
-                            if(fragment instanceof TopFragment) {
-                                currentPosition = 0;
-                            }
-                            if(fragment instanceof FoodMaterialFragment) { //Todo: change the following to swich case and implement Type as enum
-                                if(Food.getType() == "Pizza") { // depending on the type, sets the items to display the correct RecyclerView environment (e.g. name on the bar)
+
+                            if(fragment instanceof FoodMaterialFragment) {
+                                if(FindRecipesTask.type == "Pizza") { // depending on the type, sets the items to display the correct RecyclerView environment (e.g. name on the bar)
                                     currentPosition = 1;
                                 }
-                                if(Food.getType() == "Pasta") {
+                                else if(FindRecipesTask.type == "Pasta") {
                                     currentPosition = 2;
                                 }
-                                if(Food.getType() == "Soup") {
+                                else if(FindRecipesTask.type == "Soup") {
                                     currentPosition = 3;
+                                }
+                                else if(FindRecipesTask.type == "Home") {
+                                    currentPosition = 0;
+                                }
+                                else {
+                                    currentPosition = 4;
+                                    System.out.println("CURRENT POSITION 4 102" );
                                 }
                             }
 
@@ -95,8 +110,10 @@ public class MainActivity extends AppCompatActivity {
             );
 
 
+
+
     }
-    @Override // display the action_create_order button in the activity bar
+    @Override // display the action_open_book button in the activity bar
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
         menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
@@ -117,22 +134,31 @@ public class MainActivity extends AppCompatActivity {
         currentPosition = position; // update value when navigation drawer item is selected
         switch(position) { // depending on the position, we open the selected fragment
             case 1:
-                Food.setType("Pizza");
+                FindRecipesTask.type = "Pizza";
+
                 fragment =new FoodMaterialFragment();
                 break;
             case 2:
-                Food.setType("Pasta");
+                FindRecipesTask.type = "Pasta";
                 fragment = new FoodMaterialFragment();
 
                 break;
             case 3:
-                Food.setType("Soup");
+                FindRecipesTask.type = "Soup";
                 fragment = new FoodMaterialFragment();
 
                 break;
+            case 4:
+                System.out.println("151 dziła");
+
+                FindRecipesTask.type = searchText;
+
+                System.out.println("tresc: "+searchText);
+                fragment = new FoodMaterialFragment();
+                break;
             default:
-                Food.setType("Home");
-                fragment = new TopFragment();
+                FindRecipesTask.type = "Home";
+                fragment = new FoodMaterialFragment();
 
         }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -157,8 +183,12 @@ public class MainActivity extends AppCompatActivity {
     private void setActionBarTitle(int position) {
         String title;
         if(position == 0 ) {
-            title = getResources().getString(R.string.app_name); // if he clicks home screen
-        } else {
+            title = "Favorite <3"; // if he clicks home screen
+        }
+        else if(position == 4) {
+
+            title = searchText;}
+        else {
             title = titles[position];// get a string from the titles array based on the position of the clicked item
         }
         getSupportActionBar().setTitle(title);// changes the string in the title of the action bar
@@ -167,9 +197,42 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //prepare the menu, if the action bar exists, we add items to it
-        getMenuInflater().inflate(R.menu.menu_main,menu); // arg1 - resource file, arg2 - object representing the action bar
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchText = query;
+                performSearch(query);
+
+                System.out.println("zatwierdziłem 200 (" + searchText +")" );
+                searchView.clearFocus(); // Zamyka klawiaturę po wciśnięciu Enter
+                searchView.setIconified(true); // Zwija pole wyszukiwania po wciśnięciu Enter
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Tutaj możesz reagować na zmiany tekstu wprowadzanego w polu wyszukiwania
+                // np. odświeżać listę na podstawie nowego tekstu
+                return true;
+            }
+        });
+
         return super.onCreateOptionsMenu(menu);
     }
+
+    // reszta kodu
+
+    private void performSearch(String query) {
+        selectItem(4);
+        setActionBarTitle(4);
+    }
+
+
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) { // we synchronize the state of the button with the state of the ActionBarDrawerToggle
         super.onPostCreate(savedInstanceState);
@@ -186,13 +249,14 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         switch( item.getItemId()) {
-            case R.id.action_create_order:
+            case R.id.action_open_my_book:
                 // code after clicking the place order button (we start the OrderActivity)
-                Intent intent = new Intent(this,OrderActivity.class);
+                Intent intent = new Intent(this, MyBookActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.action_settings:
-                //code after executing setting item
+                Intent intentSearch = new Intent(this, MySearchActivity.class);
+                startActivity(intentSearch);
                 return true; // true tells the system that clicking on an action bar item has been handled
             default:
                 return super.onOptionsItemSelected(item);

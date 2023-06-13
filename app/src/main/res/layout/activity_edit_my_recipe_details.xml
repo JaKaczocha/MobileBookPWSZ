@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="INGRIDIENTS"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="?attr/colorPrimary" />
+        <EditText
+            android:id="@+id/editINGREDIENTS"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="enter ingridients..."
+            android:inputType="textMultiLine" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RECIPE"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="?attr/colorPrimary" />
+        <EditText
+
+            android:id="@+id/editRECIPE"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="enter recipe...."
+            android:inputType="textMultiLine" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:autoSizeTextType="uniform"
+                android:text="KCAL " />
+
+            <EditText
+                android:id="@+id/editKCAL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ems="10"
+                android:hint="(g)"
+                android:inputType="number" />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:autoSizeTextType="uniform"
+                android:text="PROTEIN" />
+
+            <EditText
+                android:id="@+id/editPROTEIN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ems="10"
+                android:hint="(g)"
+                android:inputType="number" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+
+                android:autoSizeTextType="uniform"
+                android:text="SUGAR" />
+
+            <EditText
+                android:id="@+id/editSUGAR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ems="10"
+                android:hint="(g)"
+                android:inputType="number" />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:autoSizeTextType="uniform"
+                android:text="FAT" />
+
+            <EditText
+                android:id="@+id/editFAT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ems="10"
+                android:hint="(g)"
+                android:inputType="number" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/recipeEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="EDIT RECIPE"
+            android:onClick="editRecipe" />
+
+    </LinearLayout>
+</ScrollView>

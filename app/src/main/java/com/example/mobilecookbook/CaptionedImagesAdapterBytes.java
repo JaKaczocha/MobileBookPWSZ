@@ -1,7 +1,8 @@
 package com.example.mobilecookbook;
 
 import android.annotation.SuppressLint;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,12 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 
-public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter.ViewHolder> {
+public class CaptionedImagesAdapterBytes extends RecyclerView.Adapter<CaptionedImagesAdapterBytes.ViewHolder> {
 
     private ArrayList<String> captions;
-    private ArrayList<String> imageIds;
+    private ArrayList<byte[]> imageBytes;
     private ItemClickListener itemClickListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -38,12 +37,10 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         this.itemClickListener = listener;
     }
 
-    public CaptionedImagesAdapter(ArrayList<String> imageIds,ArrayList<String> captions) {
+    public CaptionedImagesAdapterBytes(ArrayList<byte[]> imageBytes, ArrayList<String> captions) {
         this.captions = captions;
-        this.imageIds = imageIds;
+        this.imageBytes = imageBytes;
     }
-
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -58,13 +55,10 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         ImageView imageView = cardView.findViewById(R.id.info_image);
         TextView textView = cardView.findViewById(R.id.info_text);
 
-        String imageUrl = imageIds.get(position);
+        byte[] imageByte = imageBytes.get(position);
 
-        Glide.with(cardView.getContext())
-                .load(imageUrl)
-                .placeholder(R.drawable.diavolo)
-                .error(R.drawable.clearchicken)
-                .into(imageView);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+        imageView.setImageBitmap(bitmap);
 
         imageView.setContentDescription(captions.get(position));
         textView.setText(captions.get(position));
@@ -83,7 +77,4 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
     public int getItemCount() {
         return captions.size();
     }
-
-
-
 }

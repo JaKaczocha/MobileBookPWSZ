@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">MobileCookBook</string>
-    <string name="action_create_order">dodaj_menu_main</string>
+    <string name="action_open_my_book">open_my_book</string>
     <string name="action_settings">settings_menu_main</string>
+    <string name="action_add_recipe">add_recipe</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_top"> Fragment topFragment</string>

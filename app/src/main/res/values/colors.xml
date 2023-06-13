@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+
+    <color name="my_custom_color">#FF00FF</color>
+    <color name="bord">#8E0606</color>
+    <color name="bronz">#9C460D</color>
+    <color name="wybrany">#7A1F02</color>
+    <color name="szary">#919090</color>
+    <color name="bardziejSzary">#5A5959</color>
+    <color name="lekkoszary">#C3C0C0</color>
 </resources>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/imageRecipe"
+            android:layout_width="match_parent"
+            android:layout_height="171dp"
+            android:scaleType="fitXY"
+            android:onClick="pickImage"
+            android:background="#808080" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="24dp"
+            android:text="Select image" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NAME"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="?attr/colorPrimary" />
+        <EditText
+            android:id="@+id/edtvNAME"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="enter name..."
+            android:inputType="textPersonName" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CATEGORY"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="?attr/colorPrimary" />
+        <EditText
+            android:id="@+id/edtvCATEGORY"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="enter category..."
+            android:inputType="textPersonName" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="INGRIDIENTS"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="?attr/colorPrimary" />
+        <EditText
+            android:id="@+id/edtvINGREDIENTS"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="enter ingridients..."
+            android:inputType="textMultiLine" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RECIPE"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="?attr/colorPrimary" />
+        <EditText
+
+            android:id="@+id/edtvRECIPE"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="enter recipe...."
+            android:inputType="textMultiLine" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:autoSizeTextType="uniform"
+                android:text="KCAL " />
+
+            <EditText
+                android:id="@+id/edtvKCAL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ems="10"
+                android:hint="(g)"
+                android:inputType="number" />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:autoSizeTextType="uniform"
+                android:text="PROTEIN" />
+
+            <EditText
+                android:id="@+id/edtvPROTEIN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ems="10"
+                android:hint="(g)"
+                android:inputType="number" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+
+                android:autoSizeTextType="uniform"
+                android:text="SUGAR" />
+
+            <EditText
+                android:id="@+id/edtvSUGAR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ems="10"
+                android:hint="(g)"
+                android:inputType="number" />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:autoSizeTextType="uniform"
+                android:text="FAT" />
+
+            <EditText
+                android:id="@+id/edtvFAT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ems="10"
+                android:hint="(g)"
+                android:inputType="number" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/recipeSaver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="SAVE RECIPE"
+            android:onClick="saveRecipe" />
+
+    </LinearLayout>
+</ScrollView>

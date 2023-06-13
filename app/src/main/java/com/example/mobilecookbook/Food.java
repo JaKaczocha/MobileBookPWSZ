@@ -10,8 +10,8 @@ public class Food {
     public static ArrayList<Food> food = new ArrayList<Food>();
     private static String type = "home";
 
-    public Food(String name, int imageResourceId) { // constructor
-        this.name = name;
+    public Food(String name, int imageResourceId,String recipe) { // constructor
+        this.name = name + "\n\n" + recipe;
         this.imageResourceId = imageResourceId;
     }
     public static void setType(String type1 ) {
